@@ -18,7 +18,7 @@
     { "ParameterKey":"BuildspecLocation",       "ParameterValue":"messenger-bot/buildspec.yml" },
     { "ParameterKey":"EnvironmentType",         "ParameterValue":"LINUX_CONTAINER" },
     { "ParameterKey":"ComputeType",             "ParameterValue":"BUILD_GENERAL1_SMALL" },
-    { "ParameterKey":"BuildImage",              "ParameterValue":"aws/codebuild/ubuntu-base:14.04" },
+    { "ParameterKey":"BuildImage",              "ParameterValue":"aws/codebuild/standard:2.0" },
 
     { "ParameterKey":"FbVerifyToken",           "ParameterValue":"<VERIFY_TOKEN>" },
     { "ParameterKey":"FbPageAccessToken",       "ParameterValue":"<PAGE_ACCESS_TOKEN>" }

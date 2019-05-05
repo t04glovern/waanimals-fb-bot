@@ -175,16 +175,16 @@ Resources:
           - Name: FARGATE_CLUSTER
             Value: !Ref FargateCluster
           - Name: FARGATE_SERVICE
-            Value: !Sub '${FargateService}-service'
+            Value: !Sub ${FargateService}-service
         PrivilegedMode: true
       VpcConfig:
         VpcId: !Ref VPC
         Subnets: !Ref SubnetIDs
         SecurityGroupIds:
           - !Ref codeBuildSecurityGroup
-      Name: !Sub '${ImageRepoName}-cb'
-      Description: !Sub 'CodeBuild for ${ImageRepoName}'
-      EncryptionKey: !Sub 'arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3'
+      Name: !Sub ${ImageRepoName}-cb
+      Description: !Sub CodeBuild for ${ImageRepoName}
+      EncryptionKey: !Sub arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3
       ServiceRole: !Ref codeBuildServiceRole
       TimeoutInMinutes: 60
       BadgeEnabled: true
