@@ -96,6 +96,27 @@ Resources:
                   - 'ecr:GetAuthorizationToken'
                 Resource: '*'
 
+  fargateTaskRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: rekognition
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'rekognition:DetectLabels'
+                Resource: '*'
+
   fargateLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
@@ -112,6 +133,7 @@ Resources:
       RequiresCompatibilities:
         - FARGATE
       ExecutionRoleArn: !Ref fargateTaskExecutionRole
+      TaskRoleArn: !Ref fargateTaskRole
       ContainerDefinitions:
         - Name: !Ref ServiceName
           Cpu: !Ref ContainerCpu
@@ -122,6 +144,8 @@ Resources:
               Value: !Ref FbVerifyToken
             - Name: PAGE_ACCESS_TOKEN
               Value: !Ref FbPageAccessToken
+            - Name: AWS_REGION
+              Value: !Ref 'AWS::Region'
           Memory: !Ref ContainerMemory
           Image: !Join
                   - ''

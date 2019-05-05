@@ -1,4 +1,5 @@
 const request = require("request");
+const ImageAnalyser = require('../util/imageAnalyser');
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
@@ -20,24 +21,31 @@ async function handleMessage(sender_psid, received_message) {
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
+
+    console.log("payload url");
+    console.log(JSON.stringify(received_message.attachments[0].payload));
+    console.log("attachment_url: " + attachment_url);
+    let imageLabels = await ImageAnalyser.getImageLabels(attachment_url);
+    let labels = ImageAnalyser.getImageLabelArray(imageLabels);
+
     response = {
       "attachment": {
         "type": "template",
         "payload": {
           "template_type": "generic",
           "elements": [{
-            "title": "Is this the right picture?",
+            "title": "What best describes your image?",
             "subtitle": "Tap a button to answer.",
             "image_url": attachment_url,
             "buttons": [{
                 "type": "postback",
-                "title": "Yes!",
-                "payload": "yes",
+                "title": labels[0],
+                "payload": labels[0],
               },
               {
                 "type": "postback",
-                "title": "No!",
-                "payload": "no",
+                "title": labels[1],
+                "payload": labels[1],
               }
             ],
           }]
@@ -69,6 +77,10 @@ async function handlePostback(sender_psid, received_postback) {
   } else if (payload === 'no') {
     response = {
       "text": "Oops, try sending another image."
+    }
+  } else {
+    response = {
+      "text": "Cool! I love " + payload + "'s"
     }
   }
   // Send the message to acknowledge the postback
