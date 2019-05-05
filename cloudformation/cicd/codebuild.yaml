@@ -175,7 +175,7 @@ Resources:
           - Name: FARGATE_CLUSTER
             Value: !Ref FargateCluster
           - Name: FARGATE_SERVICE
-            Value: !Ref FargateService
+            Value: !Sub '${FargateService}-service'
         PrivilegedMode: true
       VpcConfig:
         VpcId: !Ref VPC
