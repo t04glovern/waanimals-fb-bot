@@ -4,6 +4,10 @@
 
 Facebook Messenger chatbot to handle a variety of common interactions required for WA Animals admin
 
+## Screenshot Sample
+
+![Sample](instructions/img/sample.png)
+
 ## Guide
 
 * [01 - Webhook Base Setup](instructions/01_webhook_base.md)
