@@ -40,6 +40,19 @@ Metadata:
         - CertificateArn
 
     - Label:
+        default: Codebuild Base
+      Parameters:
+        - CodeRepositoryURL
+
+    - Label:
+        default: Codebuild Service
+      Parameters:
+        - BuildspecLocation
+        - EnvironmentType
+        - ComputeType
+        - BuildImage
+
+    - Label:
         default: Facebook Webhook
       Parameters:
         - FbVerifyToken
@@ -75,6 +88,18 @@ Metadata:
         default: Health Check Endpoint
       CertificateArn:
         default: Certificate ARN
+
+      CodeRepositoryURL:
+        default: Git Repo URL
+
+      BuildspecLocation:
+        default: buildspec file
+      EnvironmentType:
+        default: Build OS
+      ComputeType:
+        default: Build Resource
+      BuildImage:
+        default: Build Image
 
       FbVerifyToken:
         default: Facebook Verification Token
@@ -125,6 +150,30 @@ Parameters:
   CertificateArn:
     Type: String
     Description: ACM Certificate ARN
+
+  CodeRepositoryURL:
+    Description: URL of the repo which contains CFN template.
+    Type: String
+
+  BuildspecLocation:
+    Description: Location of buildspec configuration
+    Type: String
+  EnvironmentType:
+    Description: Type of build environment to use for related builds.
+    Type: String
+    AllowedValues:
+      - WINDOWS_CONTAINER
+      - LINUX_CONTAINER
+  ComputeType:
+    Description: Compute resources the build project will use to build.
+    Type: String
+    AllowedValues:
+      - BUILD_GENERAL1_SMALL
+      - BUILD_GENERAL1_MEDIUM
+      - BUILD_GENERAL1_LARGE
+  BuildImage:
+    Description: System Image identifier of the image to use for code build
+    Type: String
 
   FbVerifyToken:
     Type: String
@@ -186,6 +235,33 @@ Resources:
         FbPageAccessToken:
           !Ref FbPageAccessToken
       TemplateURL: !Sub 'https://s3.amazonaws.com/${BucketName}/${BucketPrefix}/cloudformation/base/fargate-service.yaml'
+
+  fargateCodebuild:
+    DependsOn: [ fargateService ]
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        VPC:
+          !GetAtt [ baseNetworking, Outputs.VPC ]
+        SubnetIDs:
+          !GetAtt [ baseNetworking, Outputs.SubnetsPrivate ]
+        FargateCluster:
+          !GetAtt [ baseFargate, Outputs.FargateCluster ]
+        FargateService:
+          !Ref ServiceName
+        CodeRepositoryURL:
+          !Ref CodeRepositoryURL
+        BuildspecLocation:
+          !Ref BuildspecLocation
+        ImageRepoName:
+          !Ref ContainerName
+        EnvironmentType:
+          !Ref EnvironmentType
+        ComputeType:
+          !Ref ComputeType
+        BuildImage:
+          !Ref BuildImage
+      TemplateURL: !Sub 'https://s3.amazonaws.com/${BucketName}/${BucketPrefix}/cloudformation/cicd/codebuild.yaml'
 
 Outputs:
 

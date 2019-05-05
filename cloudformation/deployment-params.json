@@ -4,6 +4,7 @@
     { "ParameterKey":"BucketPrefix",            "ParameterValue":"resources/waanimals-fb-bot" },
     { "ParameterKey":"ClassB",                  "ParameterValue":"160" },
     { "ParameterKey":"ClusterName",             "ParameterValue":"waanimals-fb-bot-cluster" },
+    { "ParameterKey":"CodeRepositoryURL",       "ParameterValue":"https://github.com/t04glovern/waanimals-fb-bot" },
 
     { "ParameterKey":"ServiceName",             "ParameterValue":"waanimals-fb-bot-webhook" },
     { "ParameterKey":"ContainerName",           "ParameterValue":"waanimals-fb-bot-webhook" },
@@ -13,6 +14,11 @@
     { "ParameterKey":"DesiredCount",            "ParameterValue":"1" },
     { "ParameterKey":"HealthEndpoint",          "ParameterValue":"/healthy" },
     { "ParameterKey":"CertificateArn",          "ParameterValue":"<CERTIFICATE_ARN>" },
+
+    { "ParameterKey":"BuildspecLocation",       "ParameterValue":"messenger-bot" },
+    { "ParameterKey":"EnvironmentType",         "ParameterValue":"LINUX_CONTAINER" },
+    { "ParameterKey":"ComputeType",             "ParameterValue":"BUILD_GENERAL1_SMALL" },
+    { "ParameterKey":"BuildImage",              "ParameterValue":"aws/codebuild/ubuntu-base:14.04" },
 
     { "ParameterKey":"FbVerifyToken",           "ParameterValue":"<VERIFY_TOKEN>" },
     { "ParameterKey":"FbPageAccessToken",       "ParameterValue":"<PAGE_ACCESS_TOKEN>" }
