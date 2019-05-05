@@ -1,0 +1,19 @@
+[
+    { "ParameterKey":"ProjectName",             "ParameterValue":"WAAnimalsBot" },
+    { "ParameterKey":"BucketName",              "ParameterValue":"devopstar" },
+    { "ParameterKey":"BucketPrefix",            "ParameterValue":"resources/waanimals-fb-bot" },
+    { "ParameterKey":"ClassB",                  "ParameterValue":"160" },
+    { "ParameterKey":"ClusterName",             "ParameterValue":"waanimals-fb-bot-cluster" },
+
+    { "ParameterKey":"ServiceName",             "ParameterValue":"waanimals-fb-bot-webhook" },
+    { "ParameterKey":"ContainerName",           "ParameterValue":"waanimals-fb-bot-webhook" },
+    { "ParameterKey":"ContainerPort",           "ParameterValue":"1337" },
+    { "ParameterKey":"ContainerCpu",            "ParameterValue":"256" },
+    { "ParameterKey":"ContainerMemory",         "ParameterValue":"512" },
+    { "ParameterKey":"DesiredCount",            "ParameterValue":"1" },
+    { "ParameterKey":"HealthEndpoint",          "ParameterValue":"/healthy" },
+    { "ParameterKey":"CertificateArn",          "ParameterValue":"<CERTIFICATE_ARN>" },
+
+    { "ParameterKey":"FbVerifyToken",           "ParameterValue":"<VERIFY_TOKEN>" },
+    { "ParameterKey":"FbPageAccessToken",       "ParameterValue":"<PAGE_ACCESS_TOKEN>" }
+]
