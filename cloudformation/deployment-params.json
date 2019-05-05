@@ -15,7 +15,7 @@
     { "ParameterKey":"HealthEndpoint",          "ParameterValue":"/healthy" },
     { "ParameterKey":"CertificateArn",          "ParameterValue":"<CERTIFICATE_ARN>" },
 
-    { "ParameterKey":"BuildspecLocation",       "ParameterValue":"messenger-bot" },
+    { "ParameterKey":"BuildspecLocation",       "ParameterValue":"messenger-bot/buildspec.yml" },
     { "ParameterKey":"EnvironmentType",         "ParameterValue":"LINUX_CONTAINER" },
     { "ParameterKey":"ComputeType",             "ParameterValue":"BUILD_GENERAL1_SMALL" },
     { "ParameterKey":"BuildImage",              "ParameterValue":"aws/codebuild/ubuntu-base:14.04" },
