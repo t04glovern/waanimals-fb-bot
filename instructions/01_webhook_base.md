@@ -7,11 +7,11 @@ Based heavily on [Setting Up Your Webhook](https://developers.facebook.com/docs/
 ```bash
 mkdir messenger-bot   ## Creates a project directory
 cd messenger-bot      ## Navigates to the new directory
-touch index.js        ## Creates empty index.js file
+touch app.js          ## Creates empty app.js file
 npm init              ## Creates package.json. Accept default for all questions.
 
 ## Install Dependencies
-npm install express body-parser dotenv --save
+npm install express body-parser dotenv aws-sdk image-to-base64 request --save
 ```
 
 Update the package.json file to have the following contents in the script block
@@ -19,29 +19,40 @@ Update the package.json file to have the following contents in the script block
 ```json
 ...
   "scripts": {
-    "start": "node index.js"
+    "start": "node app.js"
   },
 ...
 ```
 
 ## Create HTTP server
 
-Within the `messenger-bot/index.js` file add the following code to get the basic up and running
+Within the `messenger-bot/app.js` file add the following code to get the basic up and running
 
 ```javascript
 'use strict';
 
-// Imports dependencies and set up http server
+require('dotenv').config();
+
+const apiController = require('./controllers/apiController');
+
+/**
+ * Express Sections
+ * Imports dependencies and set up http server
+ */
 const
-  dotenv = require('dotenv'),
   express = require('express'),
-  bodyParser = require('body-parser'),
-  app = express().use(bodyParser.json()); // creates express http server
+  body_parser = require('body-parser'),
+  app = express().use(body_parser.json()); // creates express http server
 
-// Use .env variables
-dotenv.config();
+// Webhook BOT routes
+app.get('/webhook', apiController.handleVerifyServer);
+app.post('/webhook', apiController.handleWebhookEvent);
+app.get('/healthy', apiController.handleHealthEndpoint);
 
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+// Sets server port and logs message on success
+app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
+
+module.exports = app;
 ```
 
 ### ENV file
@@ -50,6 +61,8 @@ Create a file within `messenger-bot/` called `.env` and add the following.
 
 ```bash
 VERIFY_TOKEN='<YOUR_VERIFY_TOKEN>' # Random String
+PAGE_ACCESS_TOKEN='<YOUR_PAGE_ACCESS_TOKEN>'
+AWS_REGION='us-east-1'
 ```
 
 Note your random string should be different obviously.

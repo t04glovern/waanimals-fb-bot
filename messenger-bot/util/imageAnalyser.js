@@ -1,4 +1,3 @@
-const request = require('request');
 const AWS = require('aws-sdk');
 const image2base64 = require("image-to-base64");
 
